@@ -1,9 +1,9 @@
 import os
 import json
 import base64
-import requests
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
+from groq import Groq
 
 # Load Gmail API credentials
 gmail_creds_json = os.getenv("GMAIL_API_CREDENTIALS")
@@ -20,30 +20,31 @@ def fetch_unread_emails():
     return messages
 
 def generate_ai_response(email_content):
-    """Generate AI response using Groq LLaMA."""
+    """Generate AI response using Groq LLaMA API."""
     groq_api_key = os.getenv("GROQ_LLAMMA_API_KEY")
-    
-    # Set up the Groq LLaMA API endpoint
-    url = "https://api.groq.com/llama/v1/complete"  # Update with the actual endpoint URL from Groq
-    headers = {
-        "Authorization": f"Bearer {groq_api_key}",
-        "Content-Type": "application/json"
-    }
-    
-    # Prepare the payload for the API request
-    payload = {
-        "model": "llama-3.3-70b-versatile",  # Change to your preferred model
-        "prompt": f"Reply professionally to this email:\n\n{email_content}",
-        "max_tokens": 300
-    }
-    
-    response = requests.post(url, json=payload, headers=headers)
-    
-    if response.status_code == 200:
-        ai_response = response.json()['choices'][0]['text'].strip()
+
+    # Initialize the Groq client
+    client = Groq(api_key=groq_api_key)
+
+    try:
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": f"Reply professionally to this email:\n\n{email_content}"}
+            ],
+            model="llama-3.3-70b-versatile",
+            temperature=0.5,
+            max_completion_tokens=300,
+            top_p=1,
+            stop=None,
+            stream=False
+        )
+        
+        ai_response = chat_completion.choices[0].message.content.strip()
         return ai_response
-    else:
-        print(f"Error generating response: {response.status_code}")
+
+    except Exception as e:
+        print(f"Error generating response: {e}")
         return "Sorry, I could not generate a response at the moment."
 
 def send_email(reply_to, subject, body):
