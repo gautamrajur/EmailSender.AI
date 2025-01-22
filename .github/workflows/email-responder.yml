@@ -1,39 +1,28 @@
-name: AI-Powered Email Responder
+name: Intelligent Email Responder
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Run the action every hour
-  workflow_dispatch:  # Manually trigger the workflow
+    - cron: "*/15 * * * *"  # Runs every 15 minutes
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
-  email-responder:
+  respond_to_emails:
     runs-on: ubuntu-latest
 
     steps:
-    # Check out the repository code
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    # Set up Python environment
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-    # Install dependencies
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install --no-cache-dir google-api-python-client google-auth-httplib2 google-auth-oauthlib openai
+      - name: Install dependencies
+        run: pip install --upgrade google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client requests
 
-    # Set up Gmail API credentials and OpenAI API key
-    - name: Set up credentials and environment variables
-      run: |
-        echo "$GMAIL_API_CREDENTIALS" > credentials.json
-        echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> $GITHUB_ENV
-
-    # Run the Python script to handle emails
-    - name: Run Email Responder Script
-      run: |
-        python responder.py
-
+      - name: Run email responder script
+        run: python email_responder.py
+        env:
+          GMAIL_API_CREDENTIALS: ${{ secrets.GMAIL_API_CREDENTIALS }}
+          GROQ_LLAMMA_API_KEY: ${{ secrets.LLAMA_API_KEY }}
