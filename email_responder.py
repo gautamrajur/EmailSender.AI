@@ -32,7 +32,7 @@ def generate_ai_response(email_content):
     
     # Prepare the payload for the API request
     payload = {
-        "model": "llama-13b",  # Change to your preferred model
+        "model": "llama-3.3-70b-versatile",  # Change to your preferred model
         "prompt": f"Reply professionally to this email:\n\n{email_content}",
         "max_tokens": 300
     }
