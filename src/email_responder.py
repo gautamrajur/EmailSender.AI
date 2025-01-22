@@ -26,11 +26,23 @@ def generate_ai_response(email_content):
     # Initialize the Groq client
     client = Groq(api_key=groq_api_key)
 
+    prompt = (
+    f"Reply professionally to the following email without adding preamble.\n\n"
+    f"{email_content}\n\n"
+    f"### Guidelines for the reply:\n"
+    f"1. Be **professional** and **respectful** in the response.\n"
+    f"2. Avoid adding any **preamble** or extra introduction.\n"
+    f"3. Ensure the reply does not contain any **offensive** language.\n"
+    f"4. The response should be **clear**, **concise**, and **appropriate** for the email context."
+    
+    )
+
+
     try:
         chat_completion = client.chat.completions.create(
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": f"Reply professionally to this email:\n\n{email_content}"}
+                {"role": "user", "content": prompt}
             ],
             model="llama-3.3-70b-versatile",
             temperature=0.5,
