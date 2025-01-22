@@ -1,7 +1,10 @@
-googleapiclient.discovery
 groq
 base64
 google.oauth2.credentials
 json
 os
-google-api-python-client
+google-auth 
+google-auth-oauthlib 
+google-auth-httplib2 
+google-api-python-client 
+requests
