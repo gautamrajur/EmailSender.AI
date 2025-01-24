@@ -26,7 +26,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run email responder script
-        run: python email_responder.py
+        run: python src/email_responder.py
         env:
           GMAIL_API_CREDENTIALS: ${{ secrets.GMAIL_API_CREDENTIALS }}
           GROQ_LLAMMA_API_KEY: ${{ secrets.GROQ_LLAMMA_API_KEY }}
