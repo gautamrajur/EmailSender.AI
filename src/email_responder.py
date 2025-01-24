@@ -29,16 +29,18 @@ def generate_ai_response(email_content):
     client = Groq(api_key=groq_api_key)
 
     prompt = (
-    f"Craft a natural, professional, and respectful reply to the following email, based on its content and tone. Ensure the response is specific to the email, and avoid using any generic or templated phrases. Focus on providing a personalized reply that shows attention to detail and an understanding of the sender's message:\n\n"
+    f"Please craft a professional and respectful reply to the following email, ensuring that the response is tailored to the context and tone of the message. The reply should be clear, concise, and appropriate for the given situation:\n\n"
     f"{email_content}\n\n"
-    f"### Guidelines for the Reply:\n"
-    f"1. **Acknowledge** the sender's message with sincerity, addressing any key points they have made or questions they have raised.\n"
-    f"2. Provide a **clear, direct, and relevant response** to the sender’s inquiry or topic. Do not use placeholders or filler language. The reply should be specific and tailored to the details of the email.\n"
-    f"3. Maintain a **professional, courteous, and empathetic tone** that is appropriate for the context of the conversation. Adapt the tone based on the nature of the email—whether formal or informal, urgent or casual.\n"
-    f"4. **Avoid template language**. Instead of using pre-written phrases or insertions (like ‘Dear [Name]’ or ‘Best regards [Your Name]’), respond as if you are directly speaking to the sender, with natural, fluid language.\n"
-    f"5. Ensure your response is well-structured, but do not resort to clichés or formulaic endings. The response should be easy to read and follow logically, with the focus entirely on the sender’s needs and context.\n"
-    f"6. If the email requests a follow-up or action, make sure to **acknowledge next steps** clearly, without using vague terms like ‘We’ll follow up soon.’ Be specific about what actions you’ll take or when you’ll get back to them.\n"
-    f"7. **Close the reply politely** without relying on standard phrases. The closing should match the overall tone and context, not following a preset template. Acknowledge any final details or summarize the response appropriately."
+    f"### Guidelines for Crafting the Reply:\n"
+    f"1. Begin by **addressing the sender by their name or title**, and acknowledge their message in a polite and sincere manner. Acknowledge any important details or requests made in the email.\n"
+    f"2. Respond to the main content of the email, providing a **relevant and actionable answer** that directly addresses the questions or concerns raised.\n"
+    f"3. Maintain a **professional, courteous, and empathetic tone** that is suited to the specific context, ensuring the response aligns with the tone of the original email.\n"
+    f"4. Use a **logical and clear structure** for the reply, with short paragraphs, bullet points, or numbered lists if necessary to improve readability and comprehension.\n"
+    f"5. Ensure the reply is **precise, helpful, and without unnecessary information**, focusing on providing the most relevant details that will be useful to the sender.\n"
+    f"6. If the email mentions a request for further information or actions, make sure to **address those next steps**, including any timelines or follow-up actions required.\n"
+    f"7. End the message with a **polite closing**, ensuring the message is warm and inviting for further conversation if necessary. Sign off with ‘Best regards, Gautam Raju.’\n"
+    f"8. If the context or request in the email is unclear or ambiguous, **respond politely** by acknowledging that you need a little more time or clarification and assure them that you'll get back to them as soon as possible.\n"
+    f"9. **Avoid template language**. Instead of using pre-written phrases or insertions (like ‘Dear [Name]’ or ‘Best regards [Your Name]’), respond as if you are directly speaking to the sender, with natural, fluid language.\n"
     )
 
     try:
