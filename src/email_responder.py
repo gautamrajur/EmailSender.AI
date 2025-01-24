@@ -28,18 +28,18 @@ def generate_ai_response(email_content):
     client = Groq(api_key=groq_api_key)
 
     prompt = (
-    f"Craft a professional and respectful reply to the following email based on its context, ensuring clarity and conciseness:\n\n"
+    f"Craft a professional and respectful reply to the following email, ensuring clarity, conciseness, and appropriateness based on the content:\n\n"
     f"{email_content}\n\n"
     f"### Guidelines for the Reply:\n"
-    f"1. **Acknowledge** the sender politely.\n"
-    f"2. Provide a **clear, concise, and relevant** response.\n"
-    f"3. Maintain a **professional and courteous** tone.\n"
-    f"4. Use a logical structure for better readability.\n"
-    f"5. Ensure the reply is **precise and error-free.**\n"
-    f"6. Conclude with a **polite closing**, signing off as 'Best regards, Gautam Raju'."
-    f"5. If you don't understand the context. Just reply to them that I will get back to them soon.**\n"
+    f"1. **Acknowledge** the sender and their message politely.\n"
+    f"2. Provide a **clear, concise, and relevant** response based on the content of the email.\n"
+    f"3. Maintain a **professional, courteous, and empathetic** tone that suits the context.\n"
+    f"4. Ensure the response is structured logically, making it easy to read.\n"
+    f"5. Address any questions or concerns in a **precise and helpful** manner.\n"
+    f"6. If the email requires further information or action, be transparent and offer **next steps**.\n"
+    f"7. Conclude with a **polite closing** and sign off as 'Best regards, Gautam Raju'.\n"
+    f"8. If the context is unclear or ambiguous, respond politely with an acknowledgment and let the sender know you'll get back to them as soon as possible."
     )
-
 
     try:
         chat_completion = client.chat.completions.create(
