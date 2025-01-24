@@ -37,6 +37,7 @@ def generate_ai_response(email_content):
     f"4. Use a logical structure for better readability.\n"
     f"5. Ensure the reply is **precise and error-free.**\n"
     f"6. Conclude with a **polite closing**, signing off as 'Best regards, Gautam Raju'."
+    f"5. If you don't understand the context. Just reply to them that I will get back to them soon.**\n"
     )
 
 
