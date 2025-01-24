@@ -4,6 +4,7 @@ import base64
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from groq import Groq
+import re
 
 # Load Gmail API credentials
 gmail_creds_json = os.getenv("GMAIL_API_CREDENTIALS")
@@ -39,7 +40,6 @@ def generate_ai_response(email_content):
     f"6. If the email requires further information or action, be transparent and offer **next steps**.\n"
     f"7. Conclude with a **polite closing** and sign off as 'Best regards, Gautam Raju'.\n"
     f"8. If the context is unclear or ambiguous, respond politely with an acknowledgment and let the sender know you'll get back to them as soon as possible."
-    f"9. **Do not reply to any email addresses that are marked as no-reply or auto-reply** (e.g., emails from addresses like 'no-reply@', 'donotreply@', or similar). If the sender's address matches such patterns, do not generate a response."
     )
 
     try:
@@ -71,6 +71,11 @@ def send_email(reply_to, subject, body):
     send_message = {'raw': encoded_message}
     service.users().messages().send(userId="me", body=send_message).execute()
 
+
+def is_auto_reply_or_no_reply(email_address):
+    no_reply_patterns = [r"no-reply", r"donotreply", r"noreply"]
+    return any(re.search(pattern, email_address, re.IGNORECASE) for pattern in no_reply_patterns)
+
 def main():
     unread_emails = fetch_unread_emails()
     for msg in unread_emails:
@@ -83,10 +88,14 @@ def main():
         sender_email = next(header['value'] for header in email_data['payload']['headers'] if header['name'] == 'From')
         subject = "Re: " + next(header['value'] for header in email_data['payload']['headers'] if header['name'] == 'Subject')
 
-        send_email(sender_email, subject, ai_response)
+        # Check if the sender's email is an auto-reply or no-reply address
+        if is_auto_reply_or_no_reply(sender_email):
+            print(f"Skipping reply to no-reply or auto-reply email: {sender_email}")
+        else:
+            send_email(sender_email, subject, ai_response)
 
-        # Mark email as read
-        service.users().messages().modify(userId='me', id=msg_id, body={'removeLabelIds': ['UNREAD']}).execute()
+            # Mark email as read after replying
+            service.users().messages().modify(userId='me', id=msg_id, body={'removeLabelIds': ['UNREAD']}).execute()
 
 if __name__ == "__main__":
     main()
