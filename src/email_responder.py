@@ -15,7 +15,8 @@ service = build('gmail', 'v1', credentials=creds)
 
 def fetch_unread_emails():
     """Fetch unread emails from Gmail inbox."""
-    results = service.users().messages().list(userId='me', labelIds=['INBOX'], q="is:unread", maxResults=10).execute()
+    query = "is:unread category:primary" 
+    results = service.users().messages().list(userId='me', labelIds=['INBOX'], q=query, maxResults=10).execute()
     messages = results.get('messages', [])
     return messages
 
@@ -27,14 +28,15 @@ def generate_ai_response(email_content):
     client = Groq(api_key=groq_api_key)
 
     prompt = (
-    f"Reply professionally to the following email without adding preamble.\n\n"
+    f"Craft a professional and respectful reply to the following email based on its context, ensuring clarity and conciseness:\n\n"
     f"{email_content}\n\n"
-    f"### Guidelines for the reply:\n"
-    f"1. Be **professional** and **respectful** in the response.\n"
-    f"2. Avoid adding any **preamble** or extra introduction.\n"
-    f"3. Ensure the reply does not contain any **offensive** language.\n"
-    f"4. The response should be **clear**, **concise**, and **appropriate** for the email context."
-    
+    f"### Guidelines for the Reply:\n"
+    f"1. **Acknowledge** the sender politely.\n"
+    f"2. Provide a **clear, concise, and relevant** response.\n"
+    f"3. Maintain a **professional and courteous** tone.\n"
+    f"4. Use a logical structure for better readability.\n"
+    f"5. Ensure the reply is **precise and error-free.**\n"
+    f"6. Conclude with a **polite closing**, signing off as 'Best regards, Gautam Raju'."
     )
 
 
