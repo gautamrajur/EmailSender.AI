@@ -1,3 +1,6 @@
+
+![logo](logo.png)
+
 # 📧 EmailSender.AI
 
 An AI-powered email responder that automatically replies to unread emails in your Gmail inbox using **Groq's LLaMA API**. The system runs periodically via **GitHub Actions**, ensuring prompt and intelligent responses to incoming emails.
