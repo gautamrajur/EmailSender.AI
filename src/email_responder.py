@@ -39,6 +39,7 @@ def generate_ai_response(email_content):
     f"6. If the email requires further information or action, be transparent and offer **next steps**.\n"
     f"7. Conclude with a **polite closing** and sign off as 'Best regards, Gautam Raju'.\n"
     f"8. If the context is unclear or ambiguous, respond politely with an acknowledgment and let the sender know you'll get back to them as soon as possible."
+    f"9. **Do not reply to any email addresses that are marked as no-reply or auto-reply** (e.g., emails from addresses like 'no-reply@', 'donotreply@', or similar). If the sender's address matches such patterns, do not generate a response."
     )
 
     try:
